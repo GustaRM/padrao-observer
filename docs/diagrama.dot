@@ -1,0 +1,22 @@
+digraph UML {
+  rankdir=TB; nodesep=0.5; ranksep=0.9;
+  node [shape=record, fontname="Helvetica", fontsize=11, style=filled, fillcolor="#FFFFFF"];
+  edge [fontname="Helvetica", fontsize=10];
+
+  Estacao [label="{EstacaoMonitoramento\n(Subject)|- nomeRio : String\l- nivelAtual : double\l- observadores : List\<Observador\>\l|+ adicionarObservador(o)\l+ removerObservador(o)\l+ registrarNivel(metros)\l- notificarObservadores()\l+ getNivelAtual() : double\l+ getNomeRio() : String\l}", fillcolor="#FFF8DC"];
+
+  Observador [label="{«interface»\nObservador||+ atualizar(estacao)\l}", fillcolor="#E8F8E8"];
+
+  Defesa [label="{DefesaCivil|+ LIMITE_METROS = 3.0\l- nome : String\l- totalLeituras : int\l- alertas : List\<String\>\l|+ atualizar(estacao)\l+ getAlertas()\l+ getUltimoAlerta()\l}", fillcolor="#E8F8E8"];
+  Pref [label="{PrefeituraMunicipal|+ LIMITE_METROS = 4.0\l- nome : String\l- totalLeituras : int\l- alertas : List\<String\>\l|+ atualizar(estacao)\l+ getAlertas()\l+ getUltimoAlerta()\l}", fillcolor="#E8F8E8"];
+  Sms [label="{AssinanteSms|+ LIMITE_METROS = 3.5\l- nome : String\l- totalLeituras : int\l- alertas : List\<String\>\l|+ atualizar(estacao)\l+ getAlertas()\l+ getUltimoAlerta()\l}", fillcolor="#E8F8E8"];
+
+  Estacao -> Observador [arrowhead=vee, taillabel="1", headlabel="0..*  observadores", labeldistance=2.5];
+  edge [arrowhead=empty, style=dashed];
+  Defesa -> Observador;
+  Pref -> Observador;
+  Sms -> Observador;
+
+  Nota [shape=note, fillcolor="#FFFFE0", fontsize=10, label="A cada registrarNivel(), a estação notifica todos os\lobservadores, que consultam o nível via getNivelAtual()\le decidem sozinhos se geram alerta (limite próprio).\l"];
+  Nota -> Estacao [style=dashed, arrowhead=none];
+}
